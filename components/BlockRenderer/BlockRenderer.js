@@ -1,5 +1,7 @@
 import { Cover } from "components/Cover/Cover";
 import { Heading } from "components/Heading";
+import { Paragraph } from "components/Paragraph";
+import { theme } from "theme";
 
 export const BlockRenderer = ({ blocks }) => {
   return blocks.map((block) => {
@@ -22,12 +24,19 @@ export const BlockRenderer = ({ blocks }) => {
           </Heading>
         );
       case "core/paragraph":
-        return <p>{block.attributes.content}</p>;
+        return (
+          <Paragraph
+            key={block.id}
+            textAlign={block.attributes.align}
+            content={block.attributes.content}
+            textColor={theme[block.attributes.textColor] ||  block.attributes.style?.text?.color}
+          />
+        );
       case "core/heading":
         return <h2>{block.attributes.content}</h2>;
       case "core/image":
         // eslint-disable-next-line @next/next/no-img-element
-        return <img src={block.attributes.url} />;
+        return <img src={block.attributes.url} alt="alt" />;
       default:
         return null;
     }
